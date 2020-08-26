@@ -109,17 +109,13 @@ namespace Minesweeper.Models
                     for(int j = -1; j < 2; j++)
                     {
                         if (Math.Abs(i) == Math.Abs(j)) continue;
-                        //Debug.Write((currentTile.VPos + i) + ", " + (currentTile.HPos + j));
                         if (!tileExists(currentTile.VPos + i, currentTile.HPos + j)) continue;
                         
                         Tile observedTile = tileArray[currentTile.VPos + i, currentTile.HPos + j];
-                        //tileArray[currentTile.VPos + i, currentTile.HPos + j].Revealed = true;
                         if (!observedTile.Revealed)
                         {
                             if (observedTile.TileValue == 0) tilesToCheck.Add(observedTile);
                             else if (observedTile.TileValue > 0) observedTile.Revealed = true;
-
-                            //observedTile.Revealed = true;
                         }
                         
                     }
@@ -134,6 +130,44 @@ namespace Minesweeper.Models
             return (vPos >= 0 && vPos <= (height - 1) && hPos >= 0 && hPos <= (width - 1)); 
         }
 
+
+        public int CountSurroundingTileType(Tile selectedTile, TileEnum tileType)
+        {
+            int sum = 0;
+            for (int i = -1; i < 2; i++)
+            {
+                for (int j = -1; j < 2; j++)
+                {
+                    if (i == 0 && j == 0) continue;
+                    if (tileExists(selectedTile.VPos + i, selectedTile.HPos + j))
+                    {
+                        if (tileArray[selectedTile.VPos + i, selectedTile.HPos + j].TileType == tileType) sum++;
+                    }
+                }
+            }
+            return sum;
+        }
+        public bool RevealSurroundingTiles(Tile selectedTile)
+        {
+            for (int i = -1; i < 2; i++)
+            {
+                for (int j = -1; j < 2; j++)
+                {
+                    if (i == 0 && j == 0) continue;
+                    if (tileExists(selectedTile.VPos + i, selectedTile.HPos + j))
+                    {
+                        Tile observedTile = tileArray[selectedTile.VPos + i, selectedTile.HPos + j];
+                        if (observedTile.TileType == TileEnum.NORMAL && !observedTile.Revealed)
+                        {
+                            observedTile.Revealed = true;
+                            if (observedTile.TileValue == -1) return false;
+                            if (observedTile.TileValue == 0) OpenPocket(observedTile);
+                        }
+                    }
+                }
+            }
+            return true;
+        }
 
         public void ShowBombs()
         {

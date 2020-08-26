@@ -95,7 +95,6 @@ namespace Minesweeper
             string[] rawPos = ((Rectangle)sender).Name.Split('-');
             int vPos = int.Parse(rawPos[0]);
             int hPos = int.Parse(rawPos[1]);
-            //MineCounter.Text = $"{vPos}-{hPos}";
             Tile clickedTile = game.GameBoard.getTile(vPos, hPos);
             if(!clickedTile.Revealed)
             {
@@ -105,10 +104,6 @@ namespace Minesweeper
                     if (clickedTile.TileValue == 0) game.GameBoard.OpenPocket(clickedTile);
                     else if (clickedTile.TileValue == -1) EndGame();
                 }
-                //Check if tile type is normal
-                //open tile
-                //if pocket, expand pocket
-                //if bomb, end game (show all bombs and disable clicks)
             }
 
         }
@@ -120,13 +115,20 @@ namespace Minesweeper
             Tile clickedTile = game.GameBoard.getTile(vPos, hPos);
             if(!clickedTile.Revealed)
             {
-                //cycle through normal, flagged, and ?
-                
-
                 clickedTile.cycleType();
             }
             else
             {
+                if(clickedTile.TileValue > 0)
+                {
+                    if(clickedTile.TileValue == game.GameBoard.CountSurroundingTileType(clickedTile, TileEnum.FLAG))
+                    {
+                        if(game.GameBoard.CountSurroundingTileType(clickedTile, TileEnum.AMBIGUOUS) == 0)
+                        {
+                            if (!game.GameBoard.RevealSurroundingTiles(clickedTile)) EndGame();
+                        }
+                    }
+                }
                 //Right-clicking a tile that has already been revealed and contains a number will 
                 //unveil all surrounding non-flagged neighbors IF AND ONLY IF the number of flagged 
                 //neighbors equals the number in the clicked tile AND there are no neighbors marked as “ambiguous”
