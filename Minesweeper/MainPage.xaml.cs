@@ -86,6 +86,12 @@ namespace Minesweeper
 
                     rectangle.RightTapped += tileRightTapped;
                     rectangle.Tapped += tileTapped;
+
+                    Binding mineCountBinding = new Binding();
+                    mineCountBinding.Path = new PropertyPath("MineCounter");
+                    mineCountBinding.Source = game;
+                    mineCountBinding.Mode = BindingMode.OneWay;
+                    MineCounterText.SetBinding(TextBlock.TextProperty, mineCountBinding);
                 }
             }
         }
@@ -115,7 +121,7 @@ namespace Minesweeper
             Tile clickedTile = game.GameBoard.getTile(vPos, hPos);
             if(!clickedTile.Revealed)
             {
-                clickedTile.cycleType();
+                CycleType(clickedTile);
             }
             else
             {
@@ -129,12 +135,26 @@ namespace Minesweeper
                         }
                     }
                 }
-                //Right-clicking a tile that has already been revealed and contains a number will 
-                //unveil all surrounding non-flagged neighbors IF AND ONLY IF the number of flagged 
-                //neighbors equals the number in the clicked tile AND there are no neighbors marked as “ambiguous”
             }
         }
 
+        private void CycleType(Tile selectedTile)
+        {
+            switch (selectedTile.TileType)
+            {
+                case TileEnum.NORMAL:
+                    selectedTile.TileType = TileEnum.FLAG;
+                    game.ChangeMineCounter(-1);
+                    break;
+                case TileEnum.FLAG:
+                    selectedTile.TileType = TileEnum.AMBIGUOUS;
+                    game.ChangeMineCounter(1);
+                    break;
+                case TileEnum.AMBIGUOUS:
+                    selectedTile.TileType = TileEnum.NORMAL;
+                    break;
+            }
+        }
 
 
         private void EndGame()

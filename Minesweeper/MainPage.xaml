@@ -36,8 +36,19 @@
                     <ColumnDefinition Width="3*"/>
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock x:Name="MineCounter" FontSize="24" Grid.Column="0" VerticalAlignment="Center" Margin=" 10 5 0 0 ">Mine Count: </TextBlock>
-                <TextBlock HorizontalAlignment="Center" FontSize="42" Grid.Column="1">Minesweeper</TextBlock>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="5*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock FontSize="24" VerticalAlignment="Center" TextAlignment="Right" Margin="0 0 5 0">Mine Count:</TextBlock>
+                    <TextBlock x:Name="MineCounterText" FontSize="24" Grid.Column="1" VerticalAlignment="Center" >0</TextBlock>
+
+                </Grid>
+                <StackPanel Grid.Column="1">
+                    <TextBlock HorizontalAlignment="Center" FontSize="42" >Minesweeper</TextBlock>
+                    <TextBlock x:Name="outputTextBlock" FontSize="24"></TextBlock>
+                </StackPanel>
                 <Button Grid.Column="2" FontSize="24" HorizontalAlignment="Right" VerticalAlignment="Center" Margin=" 0 5 10 0 " Click="MenuButton_Click">Menu</Button>
             </Grid>
             <Grid x:Name="GameGrid" Grid.Row="1" HorizontalAlignment="Center" Margin="0 50 0 0 ">

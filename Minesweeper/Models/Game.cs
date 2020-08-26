@@ -1,33 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Minesweeper.Models
 {
-    public class Game
+    public class Game : INotifyPropertyChanged
     {
-        private Board gameBoard;
-        private int mineCounter;
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        public Board GameBoard
+        public Board GameBoard { get; set; }
+
+        private int mineCounter;
+        public int MineCounter
         {
-            get { return gameBoard; }
-            set { gameBoard = value; }
+            get { return mineCounter; }
+            set 
+            { 
+                mineCounter = value;
+                FieldChanged();
+            }
+        }
+
+        public void ChangeMineCounter(int delta)
+        {
+            MineCounter = (mineCounter + delta);
         }
 
         public void restart(int boardWidth, int boardHeight, int mineCount)
         {
-            gameBoard = null;
-            gameBoard = new Board(boardWidth, boardHeight, mineCount);
+            GameBoard = null;
+            GameBoard = new Board(boardWidth, boardHeight, mineCount);
             mineCounter = mineCount;
         }
 
         public void EndGame()
         {
-            gameBoard.ShowBombs();
+            GameBoard.ShowBombs();
         }
-        
+
+        private void FieldChanged([CallerMemberName] string caller = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(caller));
+        }
+
     }
 }

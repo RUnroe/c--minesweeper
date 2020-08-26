@@ -89,18 +89,7 @@ namespace Minesweeper.Models
 
         public void cycleType()
         {
-            switch (tileType)
-            {
-                case TileEnum.NORMAL:
-                    TileType = TileEnum.FLAG;
-                    break;
-                case TileEnum.FLAG:
-                    TileType = TileEnum.AMBIGUOUS;
-                    break;
-                case TileEnum.AMBIGUOUS:
-                    TileType = TileEnum.NORMAL;
-                    break;
-            }
+            
             
         }
         private void FieldChanged([CallerMemberName] string caller = null)
