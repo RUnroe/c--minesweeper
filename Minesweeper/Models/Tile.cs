@@ -67,7 +67,7 @@ namespace Minesweeper.Models
         {
             if(revealed)
             {
-                if (tileValue == -1) TileName = "bomb";
+                if (tileValue == -1) TileName = "mine";
                 else TileName = $"{tileValue}";
             }
             else
