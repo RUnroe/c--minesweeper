@@ -106,7 +106,8 @@ namespace Minesweeper.Models
                 {
                     for(int j = -1; j < 2; j++)
                     {
-                        if (Math.Abs(i) == Math.Abs(j)) continue;
+                        //if (Math.Abs(i) == Math.Abs(j)) continue;
+                        if (i == 0 && j == 0) continue;
                         if (!tileExists(currentTile.VPos + i, currentTile.HPos + j)) continue;
                         
                         Tile observedTile = tileArray[currentTile.VPos + i, currentTile.HPos + j];
@@ -189,7 +190,6 @@ namespace Minesweeper.Models
                     if (tileArray[i, j].TileValue == -1 && tileArray[i, j].TileType == TileEnum.FLAG) counter++;
                 }
             }
-            Debug.WriteLine($"{counter} == {MineCount}");
             return counter == MineCount;
         }
 

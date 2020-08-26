@@ -44,7 +44,6 @@ namespace Minesweeper.Models
         }
         public bool WinGame()
         {
-            Debug.WriteLine("Mine counter: " + mineCounter);
             if (mineCounter == 0) return (GameBoard.AllFlagsCoverBombs() && GameBoard.AllTilesRevealed());
             return false;
         }

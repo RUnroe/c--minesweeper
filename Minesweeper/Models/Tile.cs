@@ -87,11 +87,7 @@ namespace Minesweeper.Models
             }
         }
 
-        public void cycleType()
-        {
-            
-            
-        }
+
         private void FieldChanged([CallerMemberName] string caller = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(caller));
