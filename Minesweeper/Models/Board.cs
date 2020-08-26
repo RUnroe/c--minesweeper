@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -42,7 +43,7 @@ namespace Minesweeper.Models
             {
                 for (int j = 0; j < width; j++)
                 {
-                    tileArray[i, j] = new Tile();
+                    tileArray[i, j] = new Tile(i, j);
                 }
             }
         }
@@ -94,10 +95,45 @@ namespace Minesweeper.Models
             if (tileArray[vPos, hPos].TileValue != -1) tileArray[vPos, hPos].TileValue += 1;
         }
 
-        public void OpenPocket(int vPos, int hPos)
+
+
+        public void OpenPocket(Tile clickedTile)
         {
-            
+            List<Tile> tilesToCheck = new List<Tile>();
+            tilesToCheck.Add(clickedTile);
+            while(tilesToCheck.Count != 0)
+            {
+                Tile currentTile = tilesToCheck[0];
+                for(int i = -1; i < 2; i++)
+                {
+                    for(int j = -1; j < 2; j++)
+                    {
+                        if (Math.Abs(i) == Math.Abs(j)) continue;
+                        //Debug.Write((currentTile.VPos + i) + ", " + (currentTile.HPos + j));
+                        if (!tileExists(currentTile.VPos + i, currentTile.HPos + j)) continue;
+                        
+                        Tile observedTile = tileArray[currentTile.VPos + i, currentTile.HPos + j];
+                        //tileArray[currentTile.VPos + i, currentTile.HPos + j].Revealed = true;
+                        if (!observedTile.Revealed)
+                        {
+                            if (observedTile.TileValue == 0) tilesToCheck.Add(observedTile);
+                            else if (observedTile.TileValue > 0) observedTile.Revealed = true;
+
+                            //observedTile.Revealed = true;
+                        }
+                        
+                    }
+                }
+                currentTile.Revealed = true;
+                tilesToCheck.RemoveAt(0);
+            }
         }
+
+        private bool tileExists(int vPos, int hPos)
+        {
+            return (vPos >= 0 && vPos <= (height - 1) && hPos >= 0 && hPos <= (width - 1)); 
+        }
+
 
         public void ShowBombs()
         {

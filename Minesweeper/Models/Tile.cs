@@ -17,6 +17,15 @@ namespace Minesweeper.Models
         private int tileValue = 0;
         private string tileName = "unopened";
 
+        public Tile(int tileVPos, int tileHPos)
+        {
+            VPos = tileVPos;
+            HPos = tileHPos;
+        }
+
+        public int VPos { get; set; }
+        public int HPos { get; set; }
+
         public bool Revealed
         {
             get { return revealed; }

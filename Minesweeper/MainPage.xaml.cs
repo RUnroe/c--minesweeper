@@ -42,18 +42,17 @@ namespace Minesweeper
         private void MediumButton_Click(object sender, RoutedEventArgs e)
         {
             createGameView(16, 16, 40);
-
         }
         private void HardButton_Click(object sender, RoutedEventArgs e)
         {
             createGameView(30, 16, 99);
-
         }
 
         private void createGameView(int boardWidth, int boardHeight, int mineCount)
         {
             ChangeView(true);
             game.restart(boardWidth, boardHeight, mineCount);
+            GameGrid.Children.Clear();
             GameGrid.ColumnDefinitions.Clear();
             GameGrid.RowDefinitions.Clear();
             for (int i = 0; i < boardHeight; i++)
@@ -103,7 +102,7 @@ namespace Minesweeper
                 if(clickedTile.TileType == TileEnum.NORMAL)
                 {
                     clickedTile.Revealed = true;
-                    if (clickedTile.TileValue == 0) game.GameBoard.OpenPocket(vPos, hPos);
+                    if (clickedTile.TileValue == 0) game.GameBoard.OpenPocket(clickedTile);
                     else if (clickedTile.TileValue == -1) EndGame();
                 }
                 //Check if tile type is normal
