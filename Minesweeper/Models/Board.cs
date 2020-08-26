@@ -112,7 +112,7 @@ namespace Minesweeper.Models
                         if (!tileExists(currentTile.VPos + i, currentTile.HPos + j)) continue;
                         
                         Tile observedTile = tileArray[currentTile.VPos + i, currentTile.HPos + j];
-                        if (!observedTile.Revealed)
+                        if (!observedTile.Revealed && observedTile.TileType == TileEnum.NORMAL)
                         {
                             if (observedTile.TileValue == 0) tilesToCheck.Add(observedTile);
                             else if (observedTile.TileValue > 0) observedTile.Revealed = true;

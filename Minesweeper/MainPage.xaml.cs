@@ -51,6 +51,7 @@ namespace Minesweeper
         private void createGameView(int boardWidth, int boardHeight, int mineCount)
         {
             ChangeView(true);
+            outputTextBlock.Text = "";
             game.restart(boardWidth, boardHeight, mineCount);
             GameGrid.Children.Clear();
             GameGrid.ColumnDefinitions.Clear();
@@ -160,6 +161,14 @@ namespace Minesweeper
         private void EndGame()
         {
             game.EndGame();
+            //disable input
+            outputTextBlock.Text = "You lose :(";
+        }
+
+        private void WinGame()
+        {
+            //disable input
+            outputTextBlock.Text = "You win!";
         }
         private void MenuButton_Click(object sender, RoutedEventArgs e)
         {
