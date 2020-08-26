@@ -137,6 +137,7 @@
   <ItemGroup>
     <Content Include="Images\flag.svg" />
     <Content Include="Images\mine.png" />
+    <Content Include="Images\mine.svg" />
     <Content Include="Images\Minesweeper_0.svg" />
     <Content Include="Images\Minesweeper_1.svg" />
     <Content Include="Images\Minesweeper_2.svg" />
@@ -146,6 +147,8 @@
     <Content Include="Images\Minesweeper_6.svg" />
     <Content Include="Images\Minesweeper_7.svg" />
     <Content Include="Images\Minesweeper_8.svg" />
+    <Content Include="Images\newMine.png" />
+    <Content Include="Images\newMine.svg" />
     <Content Include="Images\questionmark.svg" />
     <Content Include="Images\unopened.svg" />
     <Content Include="Properties\Default.rd.xml" />

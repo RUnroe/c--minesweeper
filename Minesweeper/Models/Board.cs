@@ -56,34 +56,59 @@ namespace Minesweeper.Models
             {
                 int bombVPos = rnd.Next(height);
                 int bombHPos = rnd.Next(width);
-                if (tileArray[bombVPos, bombHPos].TileValue > -1)
+                if (tileArray[bombVPos, bombHPos].TileValue == 0)
                 {
                     tileArray[bombVPos, bombHPos].TileValue = -1;
                     minesLeft--;
-                    changeTileTileValues(bombVPos, bombHPos);
+                }
+            }
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    if (tileArray[i, j].TileValue == -1) changeTileValues(i, j);
                 }
             }
         }
 
-        private void changeTileTileValues(int bombVPos, int bombHPos)
+        private void changeTileValues(int bombVPos, int bombHPos)
         {
             if(bombVPos > 0)
             {
-                tileArray[bombVPos - 1, bombHPos].TileValue += 1;
-                if (bombHPos > 0) tileArray[bombVPos - 1, bombHPos - 1].TileValue += 1;
-                if (bombHPos < (width - 1)) tileArray[bombVPos - 1, bombHPos + 1].TileValue += 1;
+                addToValue(bombVPos - 1, bombHPos);
+                if (bombHPos > 0) addToValue(bombVPos - 1, bombHPos - 1);
+                if (bombHPos < (width - 1)) addToValue(bombVPos - 1, bombHPos + 1);
             }
             if(bombVPos < (height - 1))
             {
-                tileArray[bombVPos + 1, bombHPos].TileValue += 1;
-                if (bombHPos > 0) tileArray[bombVPos + 1, bombHPos - 1].TileValue += 1;
-                if (bombHPos < (width - 1)) tileArray[bombVPos + 1, bombHPos + 1].TileValue += 1;
+                addToValue(bombVPos + 1, bombHPos);
+                if (bombHPos > 0) addToValue(bombVPos + 1, bombHPos - 1);
+                if (bombHPos < (width - 1)) addToValue(bombVPos + 1, bombHPos + 1);
             }
-            if(bombHPos > 0) tileArray[bombVPos, bombHPos - 1].TileValue += 1;
-            if (bombHPos < (width - 1)) tileArray[bombVPos, bombHPos + 1].TileValue += 1;
+            if(bombHPos > 0) addToValue(bombVPos, bombHPos - 1);
+            if (bombHPos < (width - 1)) addToValue(bombVPos, bombHPos + 1);
         }
 
+        private void addToValue(int vPos, int hPos)
+        {
+            if (tileArray[vPos, hPos].TileValue != -1) tileArray[vPos, hPos].TileValue += 1;
+        }
 
+        public void OpenPocket(int vPos, int hPos)
+        {
+            
+        }
+
+        public void ShowBombs()
+        {
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    if (tileArray[i, j].TileValue == -1) tileArray[i, j].Revealed = true;
+                }
+            }
+        }
         public Tile getTile(int vPos, int hPos)
         {
             return tileArray[vPos, hPos];

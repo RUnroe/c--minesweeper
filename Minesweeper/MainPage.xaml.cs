@@ -58,11 +58,15 @@ namespace Minesweeper
             GameGrid.RowDefinitions.Clear();
             for (int i = 0; i < boardHeight; i++)
             {
-                GameGrid.RowDefinitions.Add(new RowDefinition());
+                RowDefinition rd = new RowDefinition();
+                rd.Height = new GridLength(32);
+                GameGrid.RowDefinitions.Add(rd);
             }
             for (int j = 0; j < boardWidth; j++)
             {
-                GameGrid.ColumnDefinitions.Add(new ColumnDefinition());
+                ColumnDefinition cd = new ColumnDefinition();
+                cd.Width = new GridLength(32);
+                GameGrid.ColumnDefinitions.Add(cd);
             }
 
             for (int i = 0; i < boardHeight; i++)
@@ -73,16 +77,69 @@ namespace Minesweeper
                     GameGrid.Children.Add(rectangle);
                     Grid.SetRow(rectangle, i);
                     Grid.SetColumn(rectangle, j);
-
+                    rectangle.Name = $"{i}-{j}";
                     Binding imageBinding = new Binding();
-                    imageBinding.Source = game.GameBoard.getTile(i, j).TileName;
+                    imageBinding.Path = new PropertyPath("TileName");
+                    imageBinding.Source = game.GameBoard.getTile(i, j);
                     imageBinding.Mode = BindingMode.OneWay;
                     imageBinding.Converter = new TileToImageConverter();
                     rectangle.SetBinding(Rectangle.FillProperty, imageBinding);
+
+                    rectangle.RightTapped += tileRightTapped;
+                    rectangle.Tapped += tileTapped;
                 }
             }
         }
 
+        private void tileTapped(object sender, TappedRoutedEventArgs e)
+        {
+            string[] rawPos = ((Rectangle)sender).Name.Split('-');
+            int vPos = int.Parse(rawPos[0]);
+            int hPos = int.Parse(rawPos[1]);
+            //MineCounter.Text = $"{vPos}-{hPos}";
+            Tile clickedTile = game.GameBoard.getTile(vPos, hPos);
+            if(!clickedTile.Revealed)
+            {
+                if(clickedTile.TileType == TileEnum.NORMAL)
+                {
+                    clickedTile.Revealed = true;
+                    if (clickedTile.TileValue == 0) game.GameBoard.OpenPocket(vPos, hPos);
+                    else if (clickedTile.TileValue == -1) EndGame();
+                }
+                //Check if tile type is normal
+                //open tile
+                //if pocket, expand pocket
+                //if bomb, end game (show all bombs and disable clicks)
+            }
+
+        }
+        private void tileRightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            string[] rawPos = ((Rectangle)sender).Name.Split('-');
+            int vPos = int.Parse(rawPos[0]);
+            int hPos = int.Parse(rawPos[1]);
+            Tile clickedTile = game.GameBoard.getTile(vPos, hPos);
+            if(!clickedTile.Revealed)
+            {
+                //cycle through normal, flagged, and ?
+                
+
+                clickedTile.cycleType();
+            }
+            else
+            {
+                //Right-clicking a tile that has already been revealed and contains a number will 
+                //unveil all surrounding non-flagged neighbors IF AND ONLY IF the number of flagged 
+                //neighbors equals the number in the clicked tile AND there are no neighbors marked as “ambiguous”
+            }
+        }
+
+
+
+        private void EndGame()
+        {
+            game.EndGame();
+        }
         private void MenuButton_Click(object sender, RoutedEventArgs e)
         {
             ChangeView(false);

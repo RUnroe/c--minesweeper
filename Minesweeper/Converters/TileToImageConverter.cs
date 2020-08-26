@@ -22,7 +22,7 @@ namespace Minesweeper.Converters
             switch (tileString) {
 
                 case "mine":
-                    retVal.ImageSource = new BitmapImage(new Uri("ms-appx:///Images/mine.png"));
+                    retVal.ImageSource = new BitmapImage(new Uri("ms-appx:///Images/newMine.svg"));
                     break;
                 case "unopened":
                     retVal.ImageSource = new BitmapImage(new Uri("ms-appx:///Images/unopened.svg"));

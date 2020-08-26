@@ -10,6 +10,13 @@ namespace Minesweeper.Models
     {
         private Board gameBoard;
         private int mineCounter;
+
+        public Board GameBoard
+        {
+            get { return gameBoard; }
+            set { gameBoard = value; }
+        }
+
         public void restart(int boardWidth, int boardHeight, int mineCount)
         {
             gameBoard = null;
@@ -17,9 +24,10 @@ namespace Minesweeper.Models
             mineCounter = mineCount;
         }
 
-        public Board GameBoard {
-            get { return gameBoard;  }
-            set { gameBoard = value;  }
+        public void EndGame()
+        {
+            gameBoard.ShowBombs();
         }
+        
     }
 }
