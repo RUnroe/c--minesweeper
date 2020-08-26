@@ -39,7 +39,7 @@ namespace Minesweeper.Models
 
         public void EndGame()
         {
-            GameBoard.ShowBombs();
+            GameBoard.ShowBoard();
         }
 
         private void FieldChanged([CallerMemberName] string caller = null)

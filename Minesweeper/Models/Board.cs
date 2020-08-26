@@ -10,8 +10,7 @@ namespace Minesweeper.Models
 {
     public class Board
     {
-        private int width;
-        private int height;
+
         private int mineCount;
         private Tile[,] tileArray;
 
@@ -24,24 +23,24 @@ namespace Minesweeper.Models
 
         public Board(int width, int height, int mineCount)
         {
-            this.width = width;
-            this.height = height;
+            Width = width;
+            Height = height;
             this.mineCount = mineCount;
             CreateBoard();
         }
 
         private void CreateBoard()
         {
-            tileArray = new Tile[height, width];
+            tileArray = new Tile[Height, Width];
             FillBoardWithTiles();
             PlaceBombs();
         }
 
         private void FillBoardWithTiles()
         {
-            for (int i = 0; i < height; i++)
+            for (int i = 0; i < Height; i++)
             {
-                for (int j = 0; j < width; j++)
+                for (int j = 0; j < Width; j++)
                 {
                     tileArray[i, j] = new Tile(i, j);
                 }
@@ -55,17 +54,17 @@ namespace Minesweeper.Models
             int minesLeft = mineCount;
             while (minesLeft > 0)
             {
-                int bombVPos = rnd.Next(height);
-                int bombHPos = rnd.Next(width);
+                int bombVPos = rnd.Next(Height);
+                int bombHPos = rnd.Next(Width);
                 if (tileArray[bombVPos, bombHPos].TileValue == 0)
                 {
                     tileArray[bombVPos, bombHPos].TileValue = -1;
                     minesLeft--;
                 }
             }
-            for (int i = 0; i < height; i++)
+            for (int i = 0; i < Height; i++)
             {
-                for (int j = 0; j < width; j++)
+                for (int j = 0; j < Width; j++)
                 {
                     if (tileArray[i, j].TileValue == -1) changeTileValues(i, j);
                 }
@@ -78,16 +77,16 @@ namespace Minesweeper.Models
             {
                 addToValue(bombVPos - 1, bombHPos);
                 if (bombHPos > 0) addToValue(bombVPos - 1, bombHPos - 1);
-                if (bombHPos < (width - 1)) addToValue(bombVPos - 1, bombHPos + 1);
+                if (bombHPos < (Width - 1)) addToValue(bombVPos - 1, bombHPos + 1);
             }
-            if(bombVPos < (height - 1))
+            if(bombVPos < (Height - 1))
             {
                 addToValue(bombVPos + 1, bombHPos);
                 if (bombHPos > 0) addToValue(bombVPos + 1, bombHPos - 1);
-                if (bombHPos < (width - 1)) addToValue(bombVPos + 1, bombHPos + 1);
+                if (bombHPos < (Width - 1)) addToValue(bombVPos + 1, bombHPos + 1);
             }
             if(bombHPos > 0) addToValue(bombVPos, bombHPos - 1);
-            if (bombHPos < (width - 1)) addToValue(bombVPos, bombHPos + 1);
+            if (bombHPos < (Width - 1)) addToValue(bombVPos, bombHPos + 1);
         }
 
         private void addToValue(int vPos, int hPos)
@@ -127,7 +126,7 @@ namespace Minesweeper.Models
 
         private bool tileExists(int vPos, int hPos)
         {
-            return (vPos >= 0 && vPos <= (height - 1) && hPos >= 0 && hPos <= (width - 1)); 
+            return (vPos >= 0 && vPos <= (Height - 1) && hPos >= 0 && hPos <= (Width - 1)); 
         }
 
 
@@ -169,13 +168,13 @@ namespace Minesweeper.Models
             return true;
         }
 
-        public void ShowBombs()
+        public void ShowBoard()
         {
-            for (int i = 0; i < height; i++)
+            for (int i = 0; i < Height; i++)
             {
-                for (int j = 0; j < width; j++)
+                for (int j = 0; j < Width; j++)
                 {
-                    if (tileArray[i, j].TileValue == -1) tileArray[i, j].Revealed = true;
+                    tileArray[i, j].Revealed = true;
                 }
             }
         }

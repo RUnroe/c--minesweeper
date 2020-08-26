@@ -2,6 +2,7 @@
 using Minesweeper.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -161,15 +162,30 @@ namespace Minesweeper
         private void EndGame()
         {
             game.EndGame();
-            //disable input
+            RemoveTappedListeners();
             outputTextBlock.Text = "You lose :(";
         }
 
         private void WinGame()
         {
-            //disable input
+            RemoveTappedListeners();
             outputTextBlock.Text = "You win!";
         }
+
+        private void RemoveTappedListeners()
+        {
+            for (int i = 0; i < game.GameBoard.Height; i++)
+            {
+                for (int j = 0; j < game.GameBoard.Width; j++)
+                {
+                    Rectangle rect = FindName($"{i}-{j}") as Rectangle;
+                    rect.RightTapped -= tileRightTapped;
+                    rect.Tapped -= tileTapped;
+
+                }
+            }
+        }
+
         private void MenuButton_Click(object sender, RoutedEventArgs e)
         {
             ChangeView(false);

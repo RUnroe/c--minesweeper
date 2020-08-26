@@ -27,8 +27,8 @@
         </Grid>
         <Grid x:Name="GamePage" Visibility="Collapsed">
             <Grid.RowDefinitions>
-                <RowDefinition Height="7*" />
-                <RowDefinition Height="93*" />
+                <RowDefinition Height="13*" />
+                <RowDefinition Height="87*" />
             </Grid.RowDefinitions>
             <Grid x:Name="GameHeadContainer">
                 <Grid.ColumnDefinitions>
@@ -47,7 +47,7 @@
                 </Grid>
                 <StackPanel Grid.Column="1">
                     <TextBlock HorizontalAlignment="Center" FontSize="42" >Minesweeper</TextBlock>
-                    <TextBlock x:Name="outputTextBlock" FontSize="24"></TextBlock>
+                    <TextBlock x:Name="outputTextBlock" HorizontalAlignment="Center" FontSize="24"></TextBlock>
                 </StackPanel>
                 <Button Grid.Column="2" FontSize="24" HorizontalAlignment="Right" VerticalAlignment="Center" Margin=" 0 5 10 0 " Click="MenuButton_Click">Menu</Button>
             </Grid>
