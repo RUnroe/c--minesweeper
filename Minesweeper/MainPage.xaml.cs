@@ -110,7 +110,8 @@ namespace Minesweeper
                 {
                     clickedTile.Revealed = true;
                     if (clickedTile.TileValue == 0) game.GameBoard.OpenPocket(clickedTile);
-                    else if (clickedTile.TileValue == -1) EndGame();
+                    CheckForWin();
+                    if (clickedTile.TileValue == -1) EndGame();
                 }
             }
 
@@ -156,6 +157,7 @@ namespace Minesweeper
                     selectedTile.TileType = TileEnum.NORMAL;
                     break;
             }
+            CheckForWin();
         }
 
 
@@ -165,7 +167,10 @@ namespace Minesweeper
             RemoveTappedListeners();
             outputTextBlock.Text = "You lose :(";
         }
-
+        private void CheckForWin()
+        {
+            if (game.WinGame()) WinGame();
+        }
         private void WinGame()
         {
             RemoveTappedListeners();

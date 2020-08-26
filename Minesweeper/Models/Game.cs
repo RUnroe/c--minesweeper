@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -41,7 +42,12 @@ namespace Minesweeper.Models
         {
             GameBoard.ShowBoard();
         }
-
+        public bool WinGame()
+        {
+            Debug.WriteLine("Mine counter: " + mineCounter);
+            if (mineCounter == 0) return (GameBoard.AllFlagsCoverBombs() && GameBoard.AllTilesRevealed());
+            return false;
+        }
         private void FieldChanged([CallerMemberName] string caller = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(caller));

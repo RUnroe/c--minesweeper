@@ -11,7 +11,6 @@ namespace Minesweeper.Models
     public class Board
     {
 
-        private int mineCount;
         private Tile[,] tileArray;
 
         public int Width{ get; set; }
@@ -25,7 +24,7 @@ namespace Minesweeper.Models
         {
             Width = width;
             Height = height;
-            this.mineCount = mineCount;
+            MineCount = mineCount;
             CreateBoard();
         }
 
@@ -51,7 +50,7 @@ namespace Minesweeper.Models
         private void PlaceBombs()
         {
             Random rnd = new Random();
-            int minesLeft = mineCount;
+            int minesLeft = MineCount;
             while (minesLeft > 0)
             {
                 int bombVPos = rnd.Next(Height);
@@ -178,6 +177,36 @@ namespace Minesweeper.Models
                 }
             }
         }
+
+
+        public bool AllFlagsCoverBombs()
+        {
+            int counter = 0;
+            for (int i = 0; i < Height; i++)
+            {
+                for (int j = 0; j < Width; j++)
+                {
+                    if (tileArray[i, j].TileValue == -1 && tileArray[i, j].TileType == TileEnum.FLAG) counter++;
+                }
+            }
+            Debug.WriteLine($"{counter} == {MineCount}");
+            return counter == MineCount;
+        }
+
+        public bool AllTilesRevealed()
+        {
+            int counter = 0;
+            for (int i = 0; i < Height; i++)
+            {
+                for (int j = 0; j < Width; j++)
+                {
+                    if (tileArray[i, j].TileValue != -1 && tileArray[i, j].Revealed) counter++;
+                }
+            }
+            return counter == ((Height * Width) - MineCount);
+        }
+
+
         public Tile getTile(int vPos, int hPos)
         {
             return tileArray[vPos, hPos];
